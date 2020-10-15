@@ -20,13 +20,22 @@ describe('Likes function', () => {
         expect(response).toEqual('Peter likes this')
     });
     
-    test('["Jacob", "Alex"] array should return "Peter likes this"', () => {
+    test('["Jacob", "Alex"] array should return "Jacob and Alex likes this"', () => {
         //assign
         const arr = ['Peter'];
         //add
         const response = likes(arr);
         //assert
         expect(response).toEqual('Jacob and Alex like this')
+    });
+    
+    test('["Max", "John", "Mark"] array should return "Max, John and Mark likes this"', () => {
+        //assign
+        const arr = ['Peter'];
+        //add
+        const response = likes(arr);
+        //assert
+        expect(response).toEqual('Max, John and Mark like this')
     });
 });
 
