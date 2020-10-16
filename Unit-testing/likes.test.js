@@ -1,4 +1,3 @@
-const { TestScheduler } = require('jest');
 const likes = require('./likes');
 
 describe('Likes function', () => {
@@ -20,31 +19,39 @@ describe('Likes function', () => {
         expect(response).toEqual('Peter likes this')
     });
     
-    test('["Jacob", "Alex"] array should return "Jacob and Alex likes this"', () => {
+    test('["Jacob", "Alex"] array should return "Jacob and Alex like this"', () => {
         //assign
-        const arr = ['Peter'];
+        const arr = ['Jacob', 'Alex'];
         //add
         const response = likes(arr);
         //assert
         expect(response).toEqual('Jacob and Alex like this')
     });
     
-    test('["Max", "John", "Mark"] array should return "Max, John and Mark likes this"', () => {
+    test('["Max", "John", "Mark"] array should return "Max, John and Mark like this"', () => {
         //assign
-        const arr = ['Peter'];
+        const arr = ['Max', 'John', 'Mark'];
         //add
         const response = likes(arr);
         //assert
         expect(response).toEqual('Max, John and Mark like this')
     });
-});
-
-describe('example tests', function() {
-    it('should return correct text', function() {
-      Test.assertEquals(likes([]), 'no one likes this');
-      Test.assertEquals(likes(['Peter']), 'Peter likes this');
-      Test.assertEquals(likes(['Jacob', 'Alex']), 'Jacob and Alex like this');
-      Test.assertEquals(likes(['Max', 'John', 'Mark']), 'Max, John and Mark like this');
-      Test.assertEquals(likes(['Alex', 'Jacob', 'Mark', 'Max']), 'Alex, Jacob and 2 others like this');
+    
+    test('["Alex", "Jacob", "Mark", "Max"] array should return "Alex, Jacob and 2 others like this"', () => {
+        //assign
+        const arr = ['Alex', 'Jacob', 'Mark', 'Max'];
+        //add
+        const response = likes(arr);
+        //assert
+        expect(response).toEqual('Alex, Jacob and 2 others like this')
     });
-  });
+    
+    test('["Alex", "Jacob", "Mark", "Max", "Javi", "Izan", "Leti"] array should return "Alex, Jacob and 5 others like this"', () => {
+        //assign
+        const arr = ['Alex', 'Jacob', 'Mark', 'Max', 'Javi', 'Izan', 'Leti'];
+        //add
+        const response = likes(arr);
+        //assert
+        expect(response).toEqual('Alex, Jacob and 5 others like this')
+    });
+});
