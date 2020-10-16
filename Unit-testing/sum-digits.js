@@ -1,16 +1,6 @@
 function digitalRoot(n) {
-    let nString = n.toString();
-    let answer = 0;
-      
-    for (let i = 0; i < nString.length; i++) {
-      answer += nString[i]*1;
-    }
-
-    if (answer > 9) {
-      answer = digitalRoot(answer);
-    }
-
-    return answer;
+    let answer = n.toString().split('').reduce((a, b) => a*1 + b*1)*1;
+    return answer >= 10 ? digitalRoot(answer) : answer;
 }
 
 module.exports = digitalRoot;
