@@ -1,4 +1,4 @@
-const Life = require('./script');
+const Life = require('./functions');
 
 describe('Game of life', () => {
     let life;
