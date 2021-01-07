@@ -47,4 +47,14 @@ function largestRectangleInGrid(matrix) {
     return areaCounter;
 }
 
+function consoleLogSubMatrix(matrix) {
+    position = {startRow: 2, startCol: 2};
+    size = {rows: 2, cols: 2};
+
+    console.log(matrix
+        .filter((_, matrixRow) => {return matrixRow >= position.startRow && matrixRow < position.startRow + size.rows})
+        .map(row => row.slice(position.startCol, position.startCol + size.cols))
+    );
+}
+
 module.exports = largestRectangleInGrid;
