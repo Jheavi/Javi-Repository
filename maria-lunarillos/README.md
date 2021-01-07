@@ -1,6 +1,6 @@
-### Maria Lunarillos web
+# Maria Lunarillos web
 
 Development of a full responsive web application taking as design guidelines the original website.
 
-# Technologies: 
+### Technologies: 
 Semantic HTML/HTML5; CSS/CSS3; BEM.
