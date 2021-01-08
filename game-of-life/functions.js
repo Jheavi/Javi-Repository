@@ -45,6 +45,18 @@ class Life {
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0]
 		];
+		// prettier-ignore
+		this.gliderPistolPattern = [
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, ],
+			[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+		]
 
 		this.borderCheckerBtn = borderCheckerBtn;
 		this.container = container;
@@ -53,6 +65,7 @@ class Life {
 		this.speedInput = speedInput;
 	}
 
+	// Original Game of Life
 	aliveOrDie(x, y, matrix) {
 		let aliveNeightbours = 0;
 		let neighbours = [];
@@ -188,6 +201,7 @@ class Life {
 
 	stopGame() {
 		window.clearInterval(this.game);
+		this.game = null;
 	}
 
 	playing(matrix) {
@@ -195,9 +209,11 @@ class Life {
 	}
 
 	startGame() {
-		this.game = window.setInterval(() => {
-			this.playing(this.matrix);
-		}, this.generationSpeed);
+		if (!this.game) {
+			this.game = window.setInterval(() => {
+				this.playing(this.matrix);
+			}, this.generationSpeed);
+		}
 	}
 
 	resetGame() {
@@ -273,6 +289,14 @@ class Life {
 
 	createSpaceShipSDown() {
 		this.matrix = this.drawPattern(this.spaceShipSDownPattern, this.matrix);
+	}
+
+	createPulsar() {
+		this.matrix = this.drawPattern(this.pulsarPattern, this.matrix);
+	}
+
+	createGliderPistol() {
+		this.matrix = this.drawPattern(this.gliderPistolPattern, this.matrix);
 	}
 }
 
