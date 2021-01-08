@@ -24,19 +24,8 @@
                                 <label for="speed-input">Speed:</label>
                                 <span>(generations/sec)</span>
                             </div>
-                            <input type="text" name="" id="speed-input" value=30>
-                        </li>
-                        <li class="patterns-label options-list">
-                            <span>Patterns</span>
-                            <div class="patterns-container">
-                                <ul>
-                                    <li id="glider-button" class="patterns-li">Glider</li>
-                                    <li id="spaceshipS-button" class="patterns-li">Space-ship S</li>
-                                    <li id="spaceshipS-down-button" class="patterns-li">Space-ship S down</li>
-                                </ul>
-                            </div>
-                        </li>
-                        
+                            <input type="text" name="" id="speed-input" value=10>
+                        </li>                        
                     </div>
                 </ul>
             </div>
@@ -63,7 +52,27 @@
             <div class="flex-spacer1"></div>
         </div>
     </header>
-    <main>
+    <main>        
+        <section class="patterns">
+            <span>Patterns:</span>
+            <ul class="patterns-container">
+                <li id="glider-button" class="patterns-li">
+                    <button>Glider</button>
+                </li>
+                <li id="spaceshipS-button" class="patterns-li">
+                    <button>Space-ship S to right</button>
+                </li>
+                <li id="spaceshipS-down-button" class="patterns-li">
+                    <button>Space-ship S to down</button>
+                </li>
+                <li id="pulsar-button" class="patterns-li">
+                    <button>Pulsar</button>
+                </li>
+                <li id="glider-pistol-button" class="patterns-li">
+                    <button>Glider Pistol</button>
+                </li>
+            </ul>
+        </section>
         <div id="grid-container"></div>
     </main>
     <script type="module" src="script.js"></script>
