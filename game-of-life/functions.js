@@ -45,6 +45,18 @@ class Life {
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0]
 		];
+		// prettier-ignore
+		this.gliderPistolPattern = [
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, ],
+			[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ],
+		]
 
 		this.borderCheckerBtn = borderCheckerBtn;
 		this.container = container;
@@ -53,6 +65,15 @@ class Life {
 		this.speedInput = speedInput;
 	}
 
+	getMatrix() {
+		return this.matrix;
+	}
+
+	setMatrix(matrix) {
+		this.matrix = matrix;
+	}
+
+	// Original Game of Life
 	aliveOrDie(x, y, matrix) {
 		let aliveNeightbours = 0;
 		let neighbours = [];
@@ -83,13 +104,13 @@ class Life {
 		return false;
 	}
 
-	newCycle(matrix) {
-		const matrixFinalState = matrix.map((element) => element.slice());
+	newCycle() {
+		const matrixFinalState = this.matrix.map((element) => element.slice());
 
-		for (let row = 0; row < matrix.length; row++) {
-			for (let col = 0; col < matrix[0].length; col++) {
+		for (let row = 0; row < this.matrix.length; row++) {
+			for (let col = 0; col < this.matrix[0].length; col++) {
 				let cell = document.getElementById(`${row}-${col}`);
-				if (this.aliveOrDie(row, col, matrix)) {
+				if (this.aliveOrDie(row, col, this.matrix)) {
 					matrixFinalState[row][col] = 1;
 					cell.style.backgroundColor = this.createRandomBlue();
 				} else {
@@ -100,7 +121,7 @@ class Life {
 		}
 
 		this.generationCounter.innerHTML++;
-		return matrixFinalState;
+		this.matrix = matrixFinalState;
 	}
 
 	createEmptyMatrix(rows, cols) {
@@ -113,7 +134,7 @@ class Life {
 			}
 		}
 
-		return matrix;
+		this.matrix = matrix;
 	}
 
 	createRandomMatrix(rows, cols) {
@@ -124,10 +145,13 @@ class Life {
 			matrix.push([]);
 			for (let colValue = 0; colValue < cols; colValue++) {
 				matrix[rowValue].push(Math.round(Math.random() - 0.25));
+				if (matrix[rowValue][colValue] === -0) {
+					matrix[rowValue][colValue] = 0;
+				}
 			}
 		}
 
-		return matrix;
+		this.matrix = matrix;
 	}
 
 	makeHTMLmatrix() {
@@ -164,7 +188,7 @@ class Life {
 			this.container.style.setProperty('--cell-height', `${cellSize}px`);
 		}
 
-		if (cellSize < 12) {
+		if (cellSize < 15) {
 			this.borderCheckerBtn.checked = false;
 			document.querySelectorAll('.cell').forEach((element) => {
 				element.style.border = 'none';
@@ -188,25 +212,24 @@ class Life {
 
 	stopGame() {
 		window.clearInterval(this.game);
-	}
-
-	playing(matrix) {
-		this.matrix = this.newCycle(matrix);
+		this.game = null;
 	}
 
 	startGame() {
-		this.game = window.setInterval(() => {
-			this.playing(this.matrix);
-		}, this.generationSpeed);
+		if (!this.game) {
+			this.game = window.setInterval(() => {
+				this.newCycle();
+			}, this.generationSpeed);
+		}
 	}
 
 	resetGame() {
 		this.stopGame();
 		this.setSpeed();
-		this.cols = this.sizeRange.value * 1;
+		this.cols = +this.sizeRange.value;
 		this.rows =
 			this.cols < 30 ? this.cols : Math.floor(this.sizeRange.value * 0.6);
-		this.matrix = this.createEmptyMatrix(this.rows, this.cols);
+		this.createEmptyMatrix(this.rows, this.cols);
 		this.makeHTMLmatrix();
 		this.generationCounter.innerHTML = 0;
 		this.speedInput.value = Math.floor(1000 / this.generationSpeed);
@@ -215,7 +238,7 @@ class Life {
 	borderChecker() {
 		if (this.borderCheckerBtn.checked === true) {
 			document.querySelectorAll('.cell').forEach((element) => {
-				element.style.border = ' rgb(0, 0, 0) solid 1px';
+				element.style.border = 'rgb(0, 0, 0) solid 1px';
 			});
 		} else {
 			document.querySelectorAll('.cell').forEach((element) => {
@@ -232,7 +255,7 @@ class Life {
 
 	random() {
 		this.resetGame();
-		this.matrix = this.createRandomMatrix(this.rows, this.cols);
+		this.createRandomMatrix(this.rows, this.cols);
 		this.makeHTMLmatrix();
 	}
 
@@ -273,6 +296,14 @@ class Life {
 
 	createSpaceShipSDown() {
 		this.matrix = this.drawPattern(this.spaceShipSDownPattern, this.matrix);
+	}
+
+	createPulsar() {
+		this.matrix = this.drawPattern(this.pulsarPattern, this.matrix);
+	}
+
+	createGliderPistol() {
+		this.matrix = this.drawPattern(this.gliderPistolPattern, this.matrix);
 	}
 }
 

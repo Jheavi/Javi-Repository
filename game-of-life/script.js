@@ -13,6 +13,8 @@ const startBtn = document.getElementById('start-button');
 const gliderBtn = document.getElementById('glider-button');
 const spaceShipSBtn = document.getElementById('spaceshipS-button');
 const spaceShipSDownBtn = document.getElementById('spaceshipS-down-button');
+const pulsarBtn = document.getElementById('pulsar-button');
+const gliderPistolBtn = document.getElementById('glider-pistol-button');
 
 const life = new Life(
 	borderCheckerBtn,
@@ -35,6 +37,12 @@ spaceShipSBtn.addEventListener('click', () => life.createSpaceShipS(), false);
 spaceShipSDownBtn.addEventListener(
 	'click',
 	() => life.createSpaceShipSDown(),
+	false
+);
+pulsarBtn.addEventListener('click', () => life.createPulsar(), false);
+gliderPistolBtn.addEventListener(
+	'click',
+	() => life.createGliderPistol(),
 	false
 );
 

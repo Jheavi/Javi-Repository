@@ -14,7 +14,7 @@
   },
   "description": "",
   "jest": {
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "verbose": true
   }
 }

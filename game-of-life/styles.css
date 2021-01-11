@@ -8,8 +8,10 @@ body {
 
 main {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	margin-top: 60px;
 }
 
 ul {
@@ -79,7 +81,6 @@ ul {
 	height: auto;
 	border: gray solid 8px;
 	outline: black solid 1px;
-	margin-top: 100px;
 	display: grid;
 	grid-template-rows: repeat(var(--grid-rows), var(--cell-width));
 	grid-template-columns: repeat(var(--grid-cols), var(--cell-height));
@@ -150,26 +151,16 @@ ul {
 	font-size: 20px;
 }
 
-.patterns-label::after {
-	content: '       →';
+.patterns {
+	display: flex;
+	align-items: center;
 }
 
 .patterns-container {
 	box-sizing: border-box;
 	display: flex;
-	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
-	background-color: rgb(69, 125, 199);
-	position: absolute;
-	width: 120px;
-	top: -500px;
-	left: 219px;
-}
-
-.patterns-label:hover .patterns-container,
-.patterns-container:hover {
-	top: 118px;
 }
 
 .patterns-container .patterns-li {
@@ -177,13 +168,8 @@ ul {
 	display: flex;
 	align-items: center;
 	list-style-type: none;
-	padding: 7px 12px;
+	padding: 7px;
 	height: 58px;
-}
-
-.patterns-container .patterns-li:hover {
-	background-color: rgb(54, 101, 163);
-	width: 120px;
 }
 
 #size-range {
