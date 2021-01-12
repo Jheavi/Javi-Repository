@@ -73,6 +73,18 @@ class Life {
 		this.matrix = matrix;
 	}
 
+	getContainer() {
+		return this.container;
+	}
+
+	getGame() {
+		return this.game;
+	}
+
+	getGliderPattern() {
+		return this.gliderPattern;
+	}
+
 	// Original Game of Life
 	aliveOrDie(x, y, matrix) {
 		let aliveNeightbours = 0;
@@ -259,7 +271,7 @@ class Life {
 		this.makeHTMLmatrix();
 	}
 
-	drawPattern(pattern, matrix) {
+	drawPattern(pattern) {
 		const position = { startRow: 2, startCol: 2 };
 		const size = { rows: pattern.length, cols: pattern[0].length };
 
@@ -268,18 +280,16 @@ class Life {
 		for (let i = position.startRow; i < position.startRow + size.rows; i++) {
 			submatrixY = 0;
 			for (let j = position.startCol; j < position.startCol + size.cols; j++) {
-				matrix[i][j] = pattern[submatrixX][submatrixY];
+				this.matrix[i][j] = pattern[submatrixX][submatrixY];
 				let cell = document.getElementById(`${i}-${j}`);
-				if (cell) {
-					cell.style.backgroundColor =
-						matrix[i][j] === 0 ? 'rgb(173, 173, 173)' : this.createRandomBlue();
-				}
+				cell.style.backgroundColor =
+					this.matrix[i][j] === 0
+						? 'rgb(173, 173, 173)'
+						: this.createRandomBlue();
 				submatrixY++;
 			}
 			submatrixX++;
 		}
-
-		return matrix;
 	}
 
 	createRandomBlue() {
@@ -287,23 +297,23 @@ class Life {
 	}
 
 	createGlider() {
-		this.matrix = this.drawPattern(this.gliderPattern, this.matrix);
+		this.drawPattern(this.gliderPattern);
 	}
 
 	createSpaceShipS() {
-		this.matrix = this.drawPattern(this.spaceShipSPattern, this.matrix);
+		this.drawPattern(this.spaceShipSPattern);
 	}
 
 	createSpaceShipSDown() {
-		this.matrix = this.drawPattern(this.spaceShipSDownPattern, this.matrix);
+		this.drawPattern(this.spaceShipSDownPattern);
 	}
 
 	createPulsar() {
-		this.matrix = this.drawPattern(this.pulsarPattern, this.matrix);
+		this.drawPattern(this.pulsarPattern);
 	}
 
 	createGliderPistol() {
-		this.matrix = this.drawPattern(this.gliderPistolPattern, this.matrix);
+		this.drawPattern(this.gliderPistolPattern);
 	}
 }
 
