@@ -32,6 +32,8 @@ describe('Game of life', () => {
 	afterEach(() => {
 		life = null;
 		document.body.innerHTML = '';
+		jest.clearAllTimers();
+		jest.useRealTimers();
 	});
 
 	test('should create', () => {
@@ -597,6 +599,200 @@ describe('Game of life', () => {
 
 			//assert
 			expect(cell.style.border).toBe('');
+		});
+	});
+
+	describe('random', () => {
+		test('should call resetGame', () => {
+			const spyResetGame = jest.spyOn(life, 'resetGame');
+			//act
+			life.random();
+
+			//assert
+			expect(spyResetGame).toHaveBeenCalled();
+		});
+
+		test('should call createRandomMatrix', () => {
+			const spyCreateRandomMatrix = jest.spyOn(life, 'createRandomMatrix');
+			//act
+			life.random();
+
+			//assert
+			expect(spyCreateRandomMatrix).toHaveBeenCalled();
+		});
+
+		test('should call makeHTMLmatrix', () => {
+			const spyMakeHTMLmatrix = jest.spyOn(life, 'makeHTMLmatrix');
+			//act
+			life.random();
+
+			//assert
+			expect(spyMakeHTMLmatrix).toHaveBeenCalled();
+		});
+	});
+
+	describe('makeHTMLmatrix', () => {
+		test('should create a number of cells: rows * cols', () => {
+			//arrange
+			life.createEmptyMatrix(5, 5);
+
+			//act
+			life.makeHTMLmatrix();
+			const cells = document.getElementsByClassName('cell');
+
+			//assert
+			expect(cells.length).toBe(25);
+		});
+
+		test('should have a cell size of 25', () => {
+			//arrange
+			life.createEmptyMatrix(5, 5);
+
+			//act
+			life.makeHTMLmatrix();
+			const lifeContainer = life.getContainer();
+
+			expect(lifeContainer.style._values['--cell-width']).toBe('25px');
+		});
+	});
+
+	describe('startGame', () => {
+		test('should call setInterval if there is no game playing', () => {
+			//arange
+			const spySetInterval = jest.spyOn(window, 'setInterval');
+
+			//act
+			life.startGame();
+
+			//assert
+			expect(spySetInterval).toHaveBeenCalledTimes(1);
+			life.stopGame();
+		});
+
+		test('should do nothing if there is a game playing', () => {
+			//arange
+			jest.useFakeTimers();
+			const spySetInterval = jest.spyOn(window, 'setInterval');
+
+			//act
+			life.startGame();
+			life.startGame();
+			jest.runOnlyPendingTimers();
+
+			//assert
+			expect(spySetInterval).toHaveBeenCalledTimes(1);
+			life.stopGame();
+		});
+	});
+
+	describe('stopGame', () => {
+		test('should set game to null', () => {
+			//arange
+			life.startGame();
+
+			//act
+			life.stopGame();
+
+			//assert
+			expect(life.getGame()).toBeNull();
+		});
+	});
+
+	describe('createRandomBlue', () => {
+		test('should return an aleatory blue', () => {
+			//act
+			const blue = life.createRandomBlue();
+
+			//assert
+			expect(blue.slice(0, 9)).toBe('rgb(0, 0,');
+		});
+	});
+
+	describe('drawPattern', () => {
+		test('should modify the matrix with the pattern at position [2][2]', () => {
+			//arange
+			life.createEmptyMatrix(5, 5);
+			const glider = life.getGliderPattern();
+			const matrix = life.getMatrix();
+
+			//act
+			life.drawPattern(glider);
+
+			//assert
+			expect(matrix).toEqual([
+				[0, 0, 0, 0, 0],
+				[0, 0, 0, 0, 0],
+				[0, 0, 0, 1, 0],
+				[0, 0, 0, 0, 1],
+				[0, 0, 1, 1, 1]
+			]);
+		});
+	});
+
+	describe('Pattern functions', () => {
+		test('createGlider should call drawPattern', () => {
+			//arrange
+			life.createEmptyMatrix(5, 5);
+			life.makeHTMLmatrix();
+			const spyDrawPattern = jest.spyOn(life, 'drawPattern');
+
+			//act
+			life.createGlider();
+
+			//assert
+			expect(spyDrawPattern).toHaveBeenCalled();
+		});
+
+		test('createSpaceShipS should call drawPattern', () => {
+			//arrange
+			life.createEmptyMatrix(7, 7);
+			life.makeHTMLmatrix();
+			const spyDrawPattern = jest.spyOn(life, 'drawPattern');
+
+			//act
+			life.createSpaceShipS();
+
+			//assert
+			expect(spyDrawPattern).toHaveBeenCalled();
+		});
+
+		test('createSpaceShipSDown should call drawPattern', () => {
+			//arrange
+			life.createEmptyMatrix(7, 7);
+			life.makeHTMLmatrix();
+			const spyDrawPattern = jest.spyOn(life, 'drawPattern');
+
+			//act
+			life.createSpaceShipSDown();
+
+			//assert
+			expect(spyDrawPattern).toHaveBeenCalled();
+		});
+
+		test('createPulsar should call drawPattern', () => {
+			//arrange
+			life.createEmptyMatrix(15, 15);
+			life.makeHTMLmatrix();
+			const spyDrawPattern = jest.spyOn(life, 'drawPattern');
+
+			//act
+			life.createPulsar();
+
+			//assert
+			expect(spyDrawPattern).toHaveBeenCalled();
+		});
+
+		test('createGliderPistol should call drawPattern', () => {
+			//arrange
+			life.createEmptyMatrix(20, 40);
+			life.makeHTMLmatrix();
+			const spyDrawPattern = jest.spyOn(life, 'drawPattern');
+
+			//act
+			life.createGliderPistol();
+
+			//assert
+			expect(spyDrawPattern).toHaveBeenCalled();
 		});
 	});
 });
